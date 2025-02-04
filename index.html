@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Wish</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff4a3d;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Enter Your Details</h1>
+        <form id="birthdayForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="number" id="age" placeholder="Your Age" required>
+            <textarea id="wish" placeholder="Your Wish" rows="4" required></textarea>
+            <button type="submit">Generate Cake</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('birthdayForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const wish = document.getElementById('wish').value;
+
+            // Redirect to the cake page with query parameters
+            window.location.href = `cake.html?name=${encodeURIComponent(name)}&age=${encodeURIComponent(age)}&wish=${encodeURIComponent(wish)}`;
+        });
+    </script>
+</body>
+</html>
