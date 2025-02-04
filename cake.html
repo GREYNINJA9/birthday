@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Birthday Cake</title>
     <style>
-        /* Light background and smooth design */
+        /* Light blue background */
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
+            background: linear-gradient(135deg, #add8e6, #87ceeb); /* Light blue gradient */
             overflow: hidden;
         }
 
@@ -21,7 +21,7 @@
             transform: translateX(-50%);
             color: #555; /* Slightly darker than background */
             font-size: 24px;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Pacifico', cursive; /* Attractive font */
             text-align: center;
             z-index: 10;
             opacity: 0;
@@ -32,6 +32,9 @@
         canvas {
             display: block;
         }
+
+        /* Import Google Font for wish message */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
     </style>
 </head>
 <body>
@@ -41,6 +44,7 @@
         // Get query parameters from the URL
         const urlParams = new URLSearchParams(window.location.search);
         const name = urlParams.get('name');
+        const age = urlParams.get('age');
         const wish = urlParams.get('wish');
 
         // Display the wish message
@@ -59,7 +63,7 @@
 
             // Camera
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 8; // Increased distance to make the cake bigger
+            camera.position.z = 10; // Increased distance to make the cake bigger
 
             // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -74,20 +78,23 @@
             pointLight.position.set(10, 10, 10);
             scene.add(pointLight);
 
-            // Cake (chocolate color with multiple layers)
-            const cakeGeometry1 = new THREE.CylinderGeometry(2, 2, 0.5, 32); // Bottom layer
-            const cakeGeometry2 = new THREE.CylinderGeometry(1.5, 1.5, 0.5, 32); // Middle layer
-            const cakeGeometry3 = new THREE.CylinderGeometry(1, 1, 0.5, 32); // Top layer
-            const cakeMaterial = new THREE.MeshPhongMaterial({ color: 0x5D4037 }); // Chocolate color
+            // Cake (pink, white, and red layers)
+            const cakeGeometry1 = new THREE.CylinderGeometry(3, 3, 0.5, 32); // Bottom layer (pink)
+            const cakeGeometry2 = new THREE.CylinderGeometry(2.5, 2.5, 0.5, 32); // Middle layer (white)
+            const cakeGeometry3 = new THREE.CylinderGeometry(2, 2, 0.5, 32); // Top layer (red)
 
-            const cakeLayer1 = new THREE.Mesh(cakeGeometry1, cakeMaterial);
-            cakeLayer1.position.set(0, -0.5, 0); // Position bottom layer
+            const cakeMaterial1 = new THREE.MeshPhongMaterial({ color: 0xff69b4 }); // Pink
+            const cakeMaterial2 = new THREE.MeshPhongMaterial({ color: 0xffffff }); // White
+            const cakeMaterial3 = new THREE.MeshPhongMaterial({ color: 0xff0000 }); // Red
 
-            const cakeLayer2 = new THREE.Mesh(cakeGeometry2, cakeMaterial);
+            const cakeLayer1 = new THREE.Mesh(cakeGeometry1, cakeMaterial1);
+            cakeLayer1.position.set(0, -0.75, 0); // Position bottom layer
+
+            const cakeLayer2 = new THREE.Mesh(cakeGeometry2, cakeMaterial2);
             cakeLayer2.position.set(0, 0, 0); // Position middle layer
 
-            const cakeLayer3 = new THREE.Mesh(cakeGeometry3, cakeMaterial);
-            cakeLayer3.position.set(0, 0.5, 0); // Position top layer
+            const cakeLayer3 = new THREE.Mesh(cakeGeometry3, cakeMaterial3);
+            cakeLayer3.position.set(0, 0.75, 0); // Position top layer
 
             cake = new THREE.Group();
             cake.add(cakeLayer1);
@@ -95,13 +102,24 @@
             cake.add(cakeLayer3);
             scene.add(cake);
 
+            // Add name and age on the middle layer
+            const textGeometry = new THREE.TextGeometry(`${name}, ${age}`, {
+                size: 0.5,
+                height: 0.1,
+                font: new THREE.FontLoader().parse(/* Add your font JSON here */),
+            });
+            const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 }); // Black text
+            const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+            textMesh.position.set(-1.5, 0.1, 1.5); // Position text on the middle layer
+            cakeLayer2.add(textMesh);
+
             // Candles
             const candleGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.5, 32);
             const candleMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
 
             for (let i = 0; i < 5; i++) {
                 const candle = new THREE.Mesh(candleGeometry, candleMaterial);
-                candle.position.set((i - 2) * 0.5, 1, 0); // Position candles on top layer
+                candle.position.set((i - 2) * 0.5, 1.5, 0); // Position candles on top layer
                 cake.add(candle);
 
                 // Flame
