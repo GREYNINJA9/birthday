@@ -28,11 +28,6 @@
             transition: opacity 1s ease;
         }
 
-        /* Canvas styling */
-        canvas {
-            display: block;
-        }
-
         /* Import Google Font for wish message */
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
     </style>
@@ -101,17 +96,6 @@
             cake.add(cakeLayer2);
             cake.add(cakeLayer3);
             scene.add(cake);
-
-            // Add name and age on the middle layer
-            const textGeometry = new THREE.TextGeometry(`${name}, ${age}`, {
-                size: 0.5,
-                height: 0.1,
-                font: new THREE.FontLoader().parse(/* Add your font JSON here */),
-            });
-            const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 }); // Black text
-            const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-            textMesh.position.set(-1.5, 0.1, 1.5); // Position text on the middle layer
-            cakeLayer2.add(textMesh);
 
             // Candles
             const candleGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.5, 32);
