@@ -58,7 +58,7 @@
 
             // Camera
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 10; // Increased distance to make the cake bigger
+            camera.position.z = 15; // Increased distance to make the cake bigger
 
             // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -74,22 +74,23 @@
             scene.add(pointLight);
 
             // Cake (pink, white, and red layers)
-            const cakeGeometry1 = new THREE.CylinderGeometry(3, 3, 0.5, 32); // Bottom layer (pink)
-            const cakeGeometry2 = new THREE.CylinderGeometry(2.5, 2.5, 0.5, 32); // Middle layer (white)
-            const cakeGeometry3 = new THREE.CylinderGeometry(2, 2, 0.5, 32); // Top layer (red)
+            const cakeHeight = 1; // Height of each layer
+            const cakeGeometry1 = new THREE.CylinderGeometry(3, 3, cakeHeight, 32); // Bottom layer (pink)
+            const cakeGeometry2 = new THREE.CylinderGeometry(2.5, 2.5, cakeHeight, 32); // Middle layer (white)
+            const cakeGeometry3 = new THREE.CylinderGeometry(2, 2, cakeHeight, 32); // Top layer (red)
 
             const cakeMaterial1 = new THREE.MeshPhongMaterial({ color: 0xff69b4 }); // Pink
             const cakeMaterial2 = new THREE.MeshPhongMaterial({ color: 0xffffff }); // White
             const cakeMaterial3 = new THREE.MeshPhongMaterial({ color: 0xff0000 }); // Red
 
             const cakeLayer1 = new THREE.Mesh(cakeGeometry1, cakeMaterial1);
-            cakeLayer1.position.set(0, -0.75, 0); // Position bottom layer
+            cakeLayer1.position.set(0, -cakeHeight, 0); // Position bottom layer
 
             const cakeLayer2 = new THREE.Mesh(cakeGeometry2, cakeMaterial2);
             cakeLayer2.position.set(0, 0, 0); // Position middle layer
 
             const cakeLayer3 = new THREE.Mesh(cakeGeometry3, cakeMaterial3);
-            cakeLayer3.position.set(0, 0.75, 0); // Position top layer
+            cakeLayer3.position.set(0, cakeHeight, 0); // Position top layer
 
             cake = new THREE.Group();
             cake.add(cakeLayer1);
@@ -103,7 +104,7 @@
 
             for (let i = 0; i < 5; i++) {
                 const candle = new THREE.Mesh(candleGeometry, candleMaterial);
-                candle.position.set((i - 2) * 0.5, 1.5, 0); // Position candles on top layer
+                candle.position.set((i - 2) * 0.5, cakeHeight + 0.25, 0); // Position candles on top layer
                 cake.add(candle);
 
                 // Flame
